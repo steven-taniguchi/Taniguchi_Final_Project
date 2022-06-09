@@ -10,7 +10,13 @@ namespace Taniguchi_Final_Project.Controllers
 {
     public class InvoiceLineItemsController : Controller
     {
-        // GET: InvoiceLineItems
+        /// <summary>
+        /// A view to see all different invoice lines
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="sortBy"></param>
+        /// <param name="isDesc"></param>
+        /// <returns></returns>
         public ActionResult All(string id, int sortBy = 0, bool isDesc = false)
         {
             BooksEntities context = new BooksEntities();
