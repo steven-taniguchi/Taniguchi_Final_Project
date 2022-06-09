@@ -1,0 +1,16 @@
+﻿@model Taniguchi_Final_Project.Models.State
+@{
+    ViewBag.Title = "Upsert a State";
+}
+
+<h2>Upsert</h2>
+
+@using (Html.BeginForm("Upsert", "States", FormMethod.Post))
+{
+    @Html.TextBoxFor(s => s.Code, new { @class = "form-control", placeholder = "State Code" })
+    @Html.TextBoxFor(s => s.Name, new { @class = "form-control", placeholder = "State Name" })
+
+
+    <input type="submit" value="Submit" class="btn btn-info" />
+    <input type="button" value="Delete" class="btn btn-danger" onclick="apiHandler.DELETE('/States/Delete/@Model.Code')" />
+}

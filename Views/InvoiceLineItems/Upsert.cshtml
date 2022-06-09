@@ -1,0 +1,32 @@
+﻿@model Taniguchi_Final_Project.Models.UpsertInvoiceLineItemModel
+@{
+    ViewBag.Title = "Upsert an Invoice Line Item";
+}
+
+<h2>Upsert</h2>
+
+@using (Html.BeginForm("Upsert", "InvoiceLineItems", FormMethod.Post))
+{
+    <input list="invoiceIds" name="invoiceId" class="form-control" placeholder="Select an Invoice ID" />
+    <input list="productIds" name="productId" class="form-control" placeholder="Select a Product ID" />
+    @Html.TextBoxFor(i => i.InvoiceLineItem.Unit_Price, new { @class = "form-control", placeholder = "Unit Price" })
+    @Html.TextBoxFor(i => i.InvoiceLineItem.Quantity, new { @class = "form-control", placeholder = "Quantity" })
+    @Html.TextBoxFor(i => i.InvoiceLineItem.Item_Total, new { @class = "form-control", placeholder = "Item Total" })
+
+    <datalist id="invoiceIds">
+        @foreach (var product in Model.Product)
+        {
+            <option value="@product.Code - @product.Description"></option>
+        }
+    </datalist>
+    <datalist id="customerIds">
+        @foreach (var invoice in Model.Invoice)
+        {
+            <option value="@invoice.Id"></option>
+        }
+    </datalist>
+
+
+    <input type="submit" value="Submit" class="btn btn-info" />
+    <input type="button" value="Delete" class="btn btn-danger" onclick="apiHandler.DELETE('/States/Delete/?InvoiceId=@Model.InvoiceLineItem.Invoice_Id&productCode=@Model.InvoiceLineItem.Product_Code')" />
+}

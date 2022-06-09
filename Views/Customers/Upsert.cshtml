@@ -1,0 +1,32 @@
+﻿@model Taniguchi_Final_Project.Models.Customer
+@{
+    ViewBag.Title = "Upsert a Customer";
+}
+
+<h2>Upsert</h2>
+@Html.Raw(ViewBag.Error)
+
+
+
+@using (Html.BeginForm("Upsert", "Customers", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.HiddenFor(c => c.Id)
+    @Html.TextBoxFor(c => c.Name, new { @class = "form-control", placeholder = "Name", id = "name" })
+    <div class="autocomplete-container" id="autocomplete-container"></div>
+    @Html.HiddenFor(c => c.Address, new { @class = "form-control", placeholder = "Address", id = "customerAddress" })
+    @Html.HiddenFor(c => c.City, new { @class = "form-control", placeholder = "City", id = "customerCity" })
+    @Html.HiddenFor(c => c.State, new { @class = "form-control", placeholder = "State", id = "customerState" })
+    @Html.HiddenFor(c => c.Zip_Code, new { @class = "form-control", placeholder = "Zip Code", id = "customerZip" })
+
+    <input type="submit" value="Submit" class="btn btn-info" />
+    <input type="button" value="Delete" class="btn btn-danger" onclick="apiHandler.DELETE('/Customers/Delete/@Model.Id')" />
+}
+
+<script src="~/Scripts/geoapify.js"></script>
+
+<script>
+    if ("@Model.Address") {
+        let customerAddress = "@Model.Address, @Model.City, @Model.State, @Model.Zip_Code";
+        $("#autocomplete-container input").val(customerAddress);
+    }
+</script>

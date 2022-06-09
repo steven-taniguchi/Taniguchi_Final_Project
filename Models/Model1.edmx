@@ -1,0 +1,414 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="BooksModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Customers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="75" Nullable="false" />
+          <Property Name="State" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="Zip_Code" Type="char" MaxLength="15" Nullable="false" />
+          <Property Name="Is_Deleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="InvoiceLineItems">
+          <Key>
+            <PropertyRef Name="Invoice_Id" />
+            <PropertyRef Name="Product_Code" />
+          </Key>
+          <Property Name="Invoice_Id" Type="int" Nullable="false" />
+          <Property Name="Product_Code" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="Unit_Price" Type="money" Nullable="false" />
+          <Property Name="Quantity" Type="int" Nullable="false" />
+          <Property Name="Item_Total" Type="money" Nullable="false" />
+          <Property Name="Is_Deleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Invoices">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Customer_Id" Type="int" Nullable="false" />
+          <Property Name="Date" Type="datetime" Nullable="false" />
+          <Property Name="Product_Total" Type="money" Nullable="false" />
+          <Property Name="Sales_Tax" Type="money" Nullable="false" />
+          <Property Name="Shipping" Type="money" Nullable="false" />
+          <Property Name="Total" Type="money" Nullable="false" />
+          <Property Name="Is_Deleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'C:\DATABASEPROGPROJECTS\FINAL PROJECT\TANIGUCHI_FINAL_PROJECT\APP_DATA\BOOKS.MDF.dbo.OrderOptions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="OrderOptions">
+          <Key>
+            <PropertyRef Name="Sales_Tax_Rate" />
+            <PropertyRef Name="First_Book_Ship_Charge" />
+            <PropertyRef Name="Additional_Book_Ship_Charge" />
+            <PropertyRef Name="Is_Deleted" />
+          </Key>
+          <Property Name="Sales_Tax_Rate" Type="decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="First_Book_Ship_Charge" Type="money" Nullable="false" />
+          <Property Name="Additional_Book_Ship_Charge" Type="money" Nullable="false" />
+          <Property Name="Is_Deleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Products">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Unit_Price" Type="money" Nullable="false" />
+          <Property Name="On_Hand_Quantity" Type="int" Nullable="false" />
+          <Property Name="Is_Deleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <EntityType Name="States">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="char" MaxLength="2" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Is_Deleted" Type="bit" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Customers_States">
+          <End Role="States" Type="Self.States" Multiplicity="1" />
+          <End Role="Customers" Type="Self.Customers" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="States">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="Customers">
+              <PropertyRef Name="State" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceLineItems_Invoices">
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="InvoiceLineItems" Type="Self.InvoiceLineItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvoiceLineItems">
+              <PropertyRef Name="Invoice_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceLineItems_Products">
+          <End Role="Products" Type="Self.Products" Multiplicity="1" />
+          <End Role="InvoiceLineItems" Type="Self.InvoiceLineItems" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="InvoiceLineItems">
+              <PropertyRef Name="Product_Code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoices_Customers">
+          <End Role="Customers" Type="Self.Customers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Invoices" Type="Self.Invoices" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="Customer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BooksModelStoreContainer">
+          <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="InvoiceLineItems" EntityType="Self.InvoiceLineItems" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Invoices" EntityType="Self.Invoices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="States" EntityType="Self.States" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderOptions" EntityType="Self.OrderOptions" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+[OrderOptions].[Sales_Tax_Rate] AS [Sales_Tax_Rate], 
+[OrderOptions].[First_Book_Ship_Charge] AS [First_Book_Ship_Charge], 
+[OrderOptions].[Additional_Book_Ship_Charge] AS [Additional_Book_Ship_Charge], 
+[OrderOptions].[Is_Deleted] AS [Is_Deleted]
+FROM [dbo].[OrderOptions] AS [OrderOptions]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Customers_States" Association="Self.FK_Customers_States">
+            <End Role="States" EntitySet="States" />
+            <End Role="Customers" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceLineItems_Invoices" Association="Self.FK_InvoiceLineItems_Invoices">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="InvoiceLineItems" EntitySet="InvoiceLineItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceLineItems_Products" Association="Self.FK_InvoiceLineItems_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="InvoiceLineItems" EntitySet="InvoiceLineItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoices_Customers" Association="Self.FK_Invoices_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="BooksModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Customer">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="75" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="State" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Zip_Code" Type="String" MaxLength="15" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Is_Deleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="State1" Relationship="Self.FK_Customers_States" FromRole="Customers" ToRole="States" />
+          <NavigationProperty Name="Invoices" Relationship="Self.FK_Invoices_Customers" FromRole="Customers" ToRole="Invoices" />
+        </EntityType>
+        <EntityType Name="InvoiceLineItem">
+          <Key>
+            <PropertyRef Name="Invoice_Id" />
+            <PropertyRef Name="Product_Code" />
+          </Key>
+          <Property Name="Invoice_Id" Type="Int32" Nullable="false" />
+          <Property Name="Product_Code" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Unit_Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Item_Total" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Is_Deleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Invoice" Relationship="Self.FK_InvoiceLineItems_Invoices" FromRole="InvoiceLineItems" ToRole="Invoices" />
+          <NavigationProperty Name="Product" Relationship="Self.FK_InvoiceLineItems_Products" FromRole="InvoiceLineItems" ToRole="Products" />
+        </EntityType>
+        <EntityType Name="Invoice">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Customer_Id" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Product_Total" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Sales_Tax" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Shipping" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Total" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Is_Deleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Customer" Relationship="Self.FK_Invoices_Customers" FromRole="Invoices" ToRole="Customers" />
+          <NavigationProperty Name="InvoiceLineItems" Relationship="Self.FK_InvoiceLineItems_Invoices" FromRole="Invoices" ToRole="InvoiceLineItems" />
+        </EntityType>
+        <EntityType Name="Product">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Unit_Price" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="On_Hand_Quantity" Type="Int32" Nullable="false" />
+          <Property Name="Is_Deleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="InvoiceLineItems" Relationship="Self.FK_InvoiceLineItems_Products" FromRole="Products" ToRole="InvoiceLineItems" />
+        </EntityType>
+        <EntityType Name="State">
+          <Key>
+            <PropertyRef Name="Code" />
+          </Key>
+          <Property Name="Code" Type="String" MaxLength="2" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Is_Deleted" Type="Boolean" Nullable="false" />
+          <NavigationProperty Name="Customers" Relationship="Self.FK_Customers_States" FromRole="States" ToRole="Customers" />
+        </EntityType>
+        <EntityType Name="OrderOption">
+          <Key>
+            <PropertyRef Name="Sales_Tax_Rate" />
+            <PropertyRef Name="First_Book_Ship_Charge" />
+            <PropertyRef Name="Additional_Book_Ship_Charge" />
+            <PropertyRef Name="Is_Deleted" />
+          </Key>
+          <Property Name="Sales_Tax_Rate" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="First_Book_Ship_Charge" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Additional_Book_Ship_Charge" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Is_Deleted" Type="Boolean" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Customers_States">
+          <End Role="States" Type="Self.State" Multiplicity="1" />
+          <End Role="Customers" Type="Self.Customer" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="States">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="Customers">
+              <PropertyRef Name="State" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Invoices_Customers">
+          <End Role="Customers" Type="Self.Customer" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="Invoices" Type="Self.Invoice" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Customers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Invoices">
+              <PropertyRef Name="Customer_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceLineItems_Invoices">
+          <End Role="Invoices" Type="Self.Invoice" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="InvoiceLineItems" Type="Self.InvoiceLineItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Invoices">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="InvoiceLineItems">
+              <PropertyRef Name="Invoice_Id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_InvoiceLineItems_Products">
+          <End Role="Products" Type="Self.Product" Multiplicity="1" />
+          <End Role="InvoiceLineItems" Type="Self.InvoiceLineItem" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Products">
+              <PropertyRef Name="Code" />
+            </Principal>
+            <Dependent Role="InvoiceLineItems">
+              <PropertyRef Name="Product_Code" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="BooksEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Customers" EntityType="Self.Customer" />
+          <EntitySet Name="InvoiceLineItems" EntityType="Self.InvoiceLineItem" />
+          <EntitySet Name="Invoices" EntityType="Self.Invoice" />
+          <EntitySet Name="Products" EntityType="Self.Product" />
+          <EntitySet Name="States" EntityType="Self.State" />
+          <EntitySet Name="OrderOptions" EntityType="Self.OrderOption" />
+          <AssociationSet Name="FK_Customers_States" Association="Self.FK_Customers_States">
+            <End Role="States" EntitySet="States" />
+            <End Role="Customers" EntitySet="Customers" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Invoices_Customers" Association="Self.FK_Invoices_Customers">
+            <End Role="Customers" EntitySet="Customers" />
+            <End Role="Invoices" EntitySet="Invoices" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceLineItems_Invoices" Association="Self.FK_InvoiceLineItems_Invoices">
+            <End Role="Invoices" EntitySet="Invoices" />
+            <End Role="InvoiceLineItems" EntitySet="InvoiceLineItems" />
+          </AssociationSet>
+          <AssociationSet Name="FK_InvoiceLineItems_Products" Association="Self.FK_InvoiceLineItems_Products">
+            <End Role="Products" EntitySet="Products" />
+            <End Role="InvoiceLineItems" EntitySet="InvoiceLineItems" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="BooksModelStoreContainer" CdmEntityContainer="BooksEntities">
+          <EntitySetMapping Name="Customers">
+            <EntityTypeMapping TypeName="BooksModel.Customer">
+              <MappingFragment StoreEntitySet="Customers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="Zip_Code" ColumnName="Zip_Code" />
+                <ScalarProperty Name="Is_Deleted" ColumnName="Is_Deleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="InvoiceLineItems">
+            <EntityTypeMapping TypeName="BooksModel.InvoiceLineItem">
+              <MappingFragment StoreEntitySet="InvoiceLineItems">
+                <ScalarProperty Name="Invoice_Id" ColumnName="Invoice_Id" />
+                <ScalarProperty Name="Product_Code" ColumnName="Product_Code" />
+                <ScalarProperty Name="Unit_Price" ColumnName="Unit_Price" />
+                <ScalarProperty Name="Quantity" ColumnName="Quantity" />
+                <ScalarProperty Name="Item_Total" ColumnName="Item_Total" />
+                <ScalarProperty Name="Is_Deleted" ColumnName="Is_Deleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Invoices">
+            <EntityTypeMapping TypeName="BooksModel.Invoice">
+              <MappingFragment StoreEntitySet="Invoices">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Customer_Id" ColumnName="Customer_Id" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Product_Total" ColumnName="Product_Total" />
+                <ScalarProperty Name="Sales_Tax" ColumnName="Sales_Tax" />
+                <ScalarProperty Name="Shipping" ColumnName="Shipping" />
+                <ScalarProperty Name="Total" ColumnName="Total" />
+                <ScalarProperty Name="Is_Deleted" ColumnName="Is_Deleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Products">
+            <EntityTypeMapping TypeName="BooksModel.Product">
+              <MappingFragment StoreEntitySet="Products">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Unit_Price" ColumnName="Unit_Price" />
+                <ScalarProperty Name="On_Hand_Quantity" ColumnName="On_Hand_Quantity" />
+                <ScalarProperty Name="Is_Deleted" ColumnName="Is_Deleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="States">
+            <EntityTypeMapping TypeName="BooksModel.State">
+              <MappingFragment StoreEntitySet="States">
+                <ScalarProperty Name="Code" ColumnName="Code" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Is_Deleted" ColumnName="Is_Deleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="OrderOptions">
+            <EntityTypeMapping TypeName="BooksModel.OrderOption">
+              <MappingFragment StoreEntitySet="OrderOptions">
+                <ScalarProperty Name="Sales_Tax_Rate" ColumnName="Sales_Tax_Rate" />
+                <ScalarProperty Name="First_Book_Ship_Charge" ColumnName="First_Book_Ship_Charge" />
+                <ScalarProperty Name="Additional_Book_Ship_Charge" ColumnName="Additional_Book_Ship_Charge" />
+                <ScalarProperty Name="Is_Deleted" ColumnName="Is_Deleted" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="true" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

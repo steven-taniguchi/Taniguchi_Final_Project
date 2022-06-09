@@ -1,0 +1,52 @@
+﻿@model List<Taniguchi_Final_Project.Models.Invoice>
+@{
+    ViewBag.Title = "All";
+}
+
+<h2>All Invoices</h2>
+<a href="/Invoices/Upsert" class="btn btn-primary">Add an Invoice</a>
+
+<div class="row">
+    <div class="col-md-3">
+        <input id="textSearch" type="text" class="form-control" placeholder="Search..." />
+    </div>
+    <div class="col-md-9">
+        <input type="button" class="button btn btn-info" value="Search" onclick="Sortable.Search();" />
+    </div>
+</div>
+
+<table class="sortable table table-hover table-striped">
+    <thead>
+        <tr>
+            <th onclick="Sortable.Sort(0)">Id</th>
+            <th onclick="Sortable.Sort(1)">Customer Id</th>
+            <th onclick="Sortable.Sort(2)">Date</th>
+            <th onclick="Sortable.Sort(3)">Product Total</th>
+            <th onclick="Sortable.Sort(4)">Sales Tax</th>
+            <th onclick="Sortable.Sort(5)">Shipping</th>
+            <th onclick="Sortable.Sort(6)">Total</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var invoice in Model)
+        {
+        <tr>
+            <td>@invoice.Id</td>
+            <td>@invoice.Customer_Id</td>
+            <td>@invoice.Date</td>
+            <td>@invoice.Product_Total.ToString("C2")</td>
+            <td>@invoice.Sales_Tax.ToString("C2")</td>
+            <td>@invoice.Shipping.ToString("C2")</td>
+            <td>@invoice.Total.ToString("C2")</td>
+            <td>
+                <a href="/Invoices/Upsert/@invoice.Id">Edit</a>
+            </td>
+        </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    Sortable.baseUrl = "/Invoices/All/";
+</script>

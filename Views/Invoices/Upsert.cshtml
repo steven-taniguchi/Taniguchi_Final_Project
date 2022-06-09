@@ -1,0 +1,30 @@
+﻿@model Taniguchi_Final_Project.Models.UpsertInvoiceModel
+@{
+    ViewBag.Title = "Upsert an Invoice";
+}
+
+<h2>Upsert</h2>
+
+@using (Html.BeginForm("Upsert", "Invoices", FormMethod.Post))
+{
+    @Html.HiddenFor(i => i.Invoice.Id)
+    @Html.TextBoxFor(i => i.Invoice.Date, new { @class = "form-control", placeholder = "Address" })
+    <input value="@Model.Invoice.Product_Total" tpye="text" disabled class="form-control" name="Invoice.Product_Total" />
+    @Html.TextBoxFor(i => i.Invoice.Product_Total, new { @class = "form-control", placeholder = "City" })
+    @Html.TextBoxFor(i => i.Invoice.Sales_Tax, new { @class = "form-control", placeholder = "Zip Code" })
+    @Html.TextBoxFor(i => i.Invoice.Shipping, new { @class = "form-control", placeholder = "Zip Code" })
+    <input value="@Model.Invoice.Total" tpye="text" disabled class="form-control" name="Invoice.Total" />
+    @Html.TextBoxFor(i => i.Invoice.Total, new { @class = "form-control", placeholder = "Zip Code" })
+
+    <input list="customerIds" name="customerId" class="form-control" placeholder="Select a Customer ID" />
+
+    <datalist id="customerIds">
+        @foreach (var customer in Model.Customer)
+        {
+            <option value="@customer.Id - @customer.Name"></option>
+        }
+    </datalist>
+
+    <input type="submit" value="Submit" class="btn btn-info" />
+    <input type="button" value="Delete" class="btn btn-danger" onclick="apiHandler.DELETE('/Invoices/Delete/@Model.Invoice.Id')" />
+}

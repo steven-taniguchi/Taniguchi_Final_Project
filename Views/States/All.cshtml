@@ -1,0 +1,42 @@
+﻿@model List<Taniguchi_Final_Project.Models.State>
+@{
+    ViewBag.Title = "All";
+}
+
+<h2>All States</h2>
+<a href="/States/Upsert" class="btn btn-primary">Add a State</a>
+
+<div class="row">
+    <div class="col-md-3">
+        <input id="textSearch" type="text" class="form-control" placeholder="Search..." />
+    </div>
+    <div class="col-md-9">
+        <input type="button" class="button btn btn-info" value="Search" onclick="Sortable.Search();" />
+    </div>
+</div>
+
+<table class="sortable table table-hover table-striped">
+    <thead>
+        <tr>
+            <th onclick="Sortable.Sort(0)">Code</th>
+            <th onclick="Sortable.Sort(1)">Name</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var state in Model)
+        {
+            <tr>
+                <td>@state.Code</td>
+                <td>@state.Name</td>
+                <td>
+                    <a href="/Customers/Upsert/@state.Code">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    Sortable.baseUrl = "/States/All/";
+</script>

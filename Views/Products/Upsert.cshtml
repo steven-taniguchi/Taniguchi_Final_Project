@@ -1,0 +1,17 @@
+﻿@model Taniguchi_Final_Project.Models.Product
+@{
+    ViewBag.Title = "Upsert a Product";
+}
+
+<h2>Upsert a Product</h2>
+
+@using (Html.BeginForm("Upsert", "Products", FormMethod.Post))
+{
+    @Html.HiddenFor(p => p.Code)
+    @Html.TextBoxFor(p => p.Description, new { @class = "form-control", placeholder = "Description" })
+    @Html.TextBoxFor(p => p.Unit_Price, new { @class = "form-control", placeholder = "Unit Price" })
+    @Html.TextBoxFor(p => p.On_Hand_Quantity, new { @class = "form-control", placeholder = "On Hand Quantity" })
+
+    <input type="submit" value="Submit" class="btn btn-info" />
+    <input type="button" value="Delete" class="btn btn-danger" onclick="apiHandler.DELETE('/Products/Delete/@Model.Code')" />
+}

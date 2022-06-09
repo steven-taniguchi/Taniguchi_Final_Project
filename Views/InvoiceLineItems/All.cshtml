@@ -1,0 +1,48 @@
+﻿@model List<Taniguchi_Final_Project.Models.InvoiceLineItem>
+@{
+    ViewBag.Title = "All";
+}
+
+<h2>All Invoice Line Items</h2>
+<a href="/InvoiceLineItems/Upsert" class="btn btn-primary">Add an Invoice Line Item</a>
+
+<div class="row">
+    <div class="col-md-3">
+        <input id="textSearch" type="text" class="form-control" placeholder="Search..." />
+    </div>
+    <div class="col-md-9">
+        <input type="button" class="button btn btn-info" value="Search" onclick="Sortable.Search();" />
+    </div>
+</div>
+
+<table class="sortable table table-hover table-striped">
+    <thead>
+        <tr>
+            <th onclick="Sortable.Sort(0)">Invoice ID</th>
+            <th onclick="Sortable.Sort(1)">Product Code</th>
+            <th onclick="Sortable.Sort(2)">Unit Price</th>
+            <th onclick="Sortable.Sort(3)">Quantity</th>
+            <th onclick="Sortable.Sort(4)">Item Total</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var invoiceLineItems in Model)
+        {
+            <tr>
+                <td>@invoiceLineItems.Invoice_Id</td>
+                <td>@invoiceLineItems.Product_Code</td>
+                <td>@invoiceLineItems.Unit_Price.ToString("C2")</td>
+                <td>@invoiceLineItems.Quantity</td>
+                <td>@invoiceLineItems.Item_Total.ToString("C2")</td>
+                <td>
+                    <a href="/InvoiceLineItems/Upsert/@invoiceLineItems.Invoice_Id&@invoiceLineItems.Product_Code">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    Sortable.baseUrl = "/InvoiceLineItems/All/";
+</script>
