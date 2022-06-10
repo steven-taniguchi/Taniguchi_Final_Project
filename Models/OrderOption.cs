@@ -18,5 +18,6 @@ namespace Taniguchi_Final_Project.Models
         public decimal First_Book_Ship_Charge { get; set; }
         public decimal Additional_Book_Ship_Charge { get; set; }
         public bool Is_Deleted { get; set; }
+        public int Id { get; set; }
     }
 }

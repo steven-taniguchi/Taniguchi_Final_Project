@@ -13,13 +13,13 @@
     @Html.TextBoxFor(i => i.InvoiceLineItem.Quantity, new { @class = "form-control", placeholder = "Quantity" })
     @Html.TextBoxFor(i => i.InvoiceLineItem.Item_Total, new { @class = "form-control", placeholder = "Item Total" })
 
-    <datalist id="invoiceIds">
+    <datalist id="productIds">
         @foreach (var product in Model.Product)
         {
             <option value="@product.Code - @product.Description"></option>
         }
     </datalist>
-    <datalist id="customerIds">
+    <datalist id="invoiceIds">
         @foreach (var invoice in Model.Invoice)
         {
             <option value="@invoice.Id"></option>

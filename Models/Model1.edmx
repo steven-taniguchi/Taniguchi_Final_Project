@@ -42,19 +42,15 @@
           <Property Name="Total" Type="money" Nullable="false" />
           <Property Name="Is_Deleted" Type="bit" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'C:\DATABASEPROGPROJECTS\FINAL PROJECT\TANIGUCHI_FINAL_PROJECT\APP_DATA\BOOKS.MDF.dbo.OrderOptions' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
         <EntityType Name="OrderOptions">
           <Key>
-            <PropertyRef Name="Sales_Tax_Rate" />
-            <PropertyRef Name="First_Book_Ship_Charge" />
-            <PropertyRef Name="Additional_Book_Ship_Charge" />
-            <PropertyRef Name="Is_Deleted" />
+            <PropertyRef Name="Id" />
           </Key>
           <Property Name="Sales_Tax_Rate" Type="decimal" Precision="18" Scale="4" Nullable="false" />
           <Property Name="First_Book_Ship_Charge" Type="money" Nullable="false" />
           <Property Name="Additional_Book_Ship_Charge" Type="money" Nullable="false" />
           <Property Name="Is_Deleted" Type="bit" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="Products">
           <Key>
@@ -130,16 +126,9 @@ warning 6002: The table/view 'C:\DATABASEPROGPROJECTS\FINAL PROJECT\TANIGUCHI_FI
           <EntitySet Name="Customers" EntityType="Self.Customers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="InvoiceLineItems" EntityType="Self.InvoiceLineItems" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Invoices" EntityType="Self.Invoices" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="OrderOptions" EntityType="Self.OrderOptions" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Products" EntityType="Self.Products" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="States" EntityType="Self.States" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="OrderOptions" EntityType="Self.OrderOptions" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-[OrderOptions].[Sales_Tax_Rate] AS [Sales_Tax_Rate], 
-[OrderOptions].[First_Book_Ship_Charge] AS [First_Book_Ship_Charge], 
-[OrderOptions].[Additional_Book_Ship_Charge] AS [Additional_Book_Ship_Charge], 
-[OrderOptions].[Is_Deleted] AS [Is_Deleted]
-FROM [dbo].[OrderOptions] AS [OrderOptions]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_Customers_States" Association="Self.FK_Customers_States">
             <End Role="States" EntitySet="States" />
             <End Role="Customers" EntitySet="Customers" />
@@ -205,6 +194,16 @@ FROM [dbo].[OrderOptions] AS [OrderOptions]</DefiningQuery>
           <NavigationProperty Name="Customer" Relationship="Self.FK_Invoices_Customers" FromRole="Invoices" ToRole="Customers" />
           <NavigationProperty Name="InvoiceLineItems" Relationship="Self.FK_InvoiceLineItems_Invoices" FromRole="Invoices" ToRole="InvoiceLineItems" />
         </EntityType>
+        <EntityType Name="OrderOption">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Sales_Tax_Rate" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
+          <Property Name="First_Book_Ship_Charge" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Additional_Book_Ship_Charge" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
+          <Property Name="Is_Deleted" Type="Boolean" Nullable="false" />
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+        </EntityType>
         <EntityType Name="Product">
           <Key>
             <PropertyRef Name="Code" />
@@ -224,18 +223,6 @@ FROM [dbo].[OrderOptions] AS [OrderOptions]</DefiningQuery>
           <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Is_Deleted" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Customers" Relationship="Self.FK_Customers_States" FromRole="States" ToRole="Customers" />
-        </EntityType>
-        <EntityType Name="OrderOption">
-          <Key>
-            <PropertyRef Name="Sales_Tax_Rate" />
-            <PropertyRef Name="First_Book_Ship_Charge" />
-            <PropertyRef Name="Additional_Book_Ship_Charge" />
-            <PropertyRef Name="Is_Deleted" />
-          </Key>
-          <Property Name="Sales_Tax_Rate" Type="Decimal" Precision="18" Scale="4" Nullable="false" />
-          <Property Name="First_Book_Ship_Charge" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="Additional_Book_Ship_Charge" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="Is_Deleted" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_Customers_States">
           <End Role="States" Type="Self.State" Multiplicity="1" />
@@ -293,9 +280,9 @@ FROM [dbo].[OrderOptions] AS [OrderOptions]</DefiningQuery>
           <EntitySet Name="Customers" EntityType="Self.Customer" />
           <EntitySet Name="InvoiceLineItems" EntityType="Self.InvoiceLineItem" />
           <EntitySet Name="Invoices" EntityType="Self.Invoice" />
+          <EntitySet Name="OrderOptions" EntityType="Self.OrderOption" />
           <EntitySet Name="Products" EntityType="Self.Product" />
           <EntitySet Name="States" EntityType="Self.State" />
-          <EntitySet Name="OrderOptions" EntityType="Self.OrderOption" />
           <AssociationSet Name="FK_Customers_States" Association="Self.FK_Customers_States">
             <End Role="States" EntitySet="States" />
             <End Role="Customers" EntitySet="Customers" />
@@ -358,6 +345,17 @@ FROM [dbo].[OrderOptions] AS [OrderOptions]</DefiningQuery>
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="OrderOptions">
+            <EntityTypeMapping TypeName="BooksModel.OrderOption">
+              <MappingFragment StoreEntitySet="OrderOptions">
+                <ScalarProperty Name="Sales_Tax_Rate" ColumnName="Sales_Tax_Rate" />
+                <ScalarProperty Name="First_Book_Ship_Charge" ColumnName="First_Book_Ship_Charge" />
+                <ScalarProperty Name="Additional_Book_Ship_Charge" ColumnName="Additional_Book_Ship_Charge" />
+                <ScalarProperty Name="Is_Deleted" ColumnName="Is_Deleted" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Products">
             <EntityTypeMapping TypeName="BooksModel.Product">
               <MappingFragment StoreEntitySet="Products">
@@ -374,16 +372,6 @@ FROM [dbo].[OrderOptions] AS [OrderOptions]</DefiningQuery>
               <MappingFragment StoreEntitySet="States">
                 <ScalarProperty Name="Code" ColumnName="Code" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Is_Deleted" ColumnName="Is_Deleted" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="OrderOptions">
-            <EntityTypeMapping TypeName="BooksModel.OrderOption">
-              <MappingFragment StoreEntitySet="OrderOptions">
-                <ScalarProperty Name="Sales_Tax_Rate" ColumnName="Sales_Tax_Rate" />
-                <ScalarProperty Name="First_Book_Ship_Charge" ColumnName="First_Book_Ship_Charge" />
-                <ScalarProperty Name="Additional_Book_Ship_Charge" ColumnName="Additional_Book_Ship_Charge" />
                 <ScalarProperty Name="Is_Deleted" ColumnName="Is_Deleted" />
               </MappingFragment>
             </EntityTypeMapping>

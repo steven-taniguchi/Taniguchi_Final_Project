@@ -11,7 +11,14 @@ namespace Taniguchi_Final_Project.Controllers
     public class InvoicesController : Controller
     {
         // GET: Invoices
-       public ActionResult All(string id, int sortBy = 0, bool isDesc = false)
+        /// <summary>
+        /// Displays the view for all invoices
+        /// </summary>
+        /// <param name="id">The search term</param>
+        /// <param name="sortBy">0 = Id, 1 = CustomerID, 2 = Date, 3 = Product total, 4 = Sales tax, 5 = Shipping, 6 = Total</param>
+        /// <param name="isDesc">Set ascending or descending on header click</param>
+        /// <returns></returns>
+        public ActionResult All(string id, int sortBy = 0, bool isDesc = false)
         {
             BooksEntities context = new BooksEntities();
             List<Invoice> invoices;
@@ -125,6 +132,11 @@ namespace Taniguchi_Final_Project.Controllers
             return View(invoices);
         }
 
+        /// <summary>
+        /// Allows for edit of entry
+        /// </summary>
+        /// <param name="id">Id of invoice to edit</param>
+        /// <returns>Invoice view</returns>
         [HttpGet]
         public ActionResult Upsert(int id = 0)
         {
@@ -147,6 +159,12 @@ namespace Taniguchi_Final_Project.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// Upserts an invoice
+        /// </summary>
+        /// <param name="model">InvoiceDTO</param>
+        /// <param name="customerId">CustomerID</param>
+        /// <returns>Invoice view</returns>
         [HttpPost]
         public ActionResult Upsert(UpsertInvoiceModel model, string customerId)
         {
@@ -158,14 +176,6 @@ namespace Taniguchi_Final_Project.Controllers
             BooksEntities context = new BooksEntities();
             try
             {
-
-                //TODO decide if need to keep or implment elsewhere
-                //if (context.Invoices.Where(i => i.Email == newInvoice.Email && i.Id != newInvoice.Id).Count() > 0)
-                //{
-                //    // TODO Add message to user
-                //    return RedirectToAction("All");
-                //}
-
                 if (context.Invoices.Where(i => i.Id == newInvoice.Id).Count() > 0)
                 {
                     var invoiceToSave = context.Invoices.Where(i => i.Id == newInvoice.Id).FirstOrDefault();
@@ -190,6 +200,11 @@ namespace Taniguchi_Final_Project.Controllers
             return RedirectToAction("All");
         }
 
+        /// <summary>
+        /// Deletes an invoice
+        /// </summary>
+        /// <param name="id">Invoice ID to edit</param>
+        /// <returns>Invoice view</returns>
         [HttpGet]
         public ActionResult Delete(string id)
         {

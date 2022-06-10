@@ -11,6 +11,13 @@ namespace Taniguchi_Final_Project.Controllers
     public class CustomersController : Controller
     {
         // GET: Customers
+        /// <summary>
+        /// Displays the view for all customers
+        /// </summary>
+        /// <param name="id">The search term</param>
+        /// <param name="sortBy">0 = Id, 1 = Name, 2 = Address, 3 = City, 4 = State, 5 =  Zip code</param>
+        /// <param name="isDesc">Set ascending or descending on header click</param>
+        /// <returns>Customer view</returns>
         public ActionResult All(string id, int sortBy = 0, bool isDesc = false)
         {
             BooksEntities context = new BooksEntities();
@@ -112,6 +119,11 @@ namespace Taniguchi_Final_Project.Controllers
             return View(customers);
         }
 
+        /// <summary>
+        /// Allows for edit of entry
+        /// </summary>
+        /// <param name="id">Customer ID</param>
+        /// <returns>Customer view</returns>
         [HttpGet]
         public ActionResult Upsert(int id = 0)
         {
@@ -127,6 +139,11 @@ namespace Taniguchi_Final_Project.Controllers
             return View(customer);
         }
 
+        /// <summary>
+        /// Upserts a customer
+        /// </summary>
+        /// <param name="newCustomer">New customer to add to database</param>
+        /// <returns>All view</returns>
         [HttpPost]
         public ActionResult Upsert(Customer newCustomer)
         {
@@ -158,6 +175,11 @@ namespace Taniguchi_Final_Project.Controllers
             return RedirectToAction("All");
         }
 
+        /// <summary>
+        /// Deletes a customer
+        /// </summary>
+        /// <param name="id">Customer ID to delete</param>
+        /// <returns>Returns JSON object redirecting to all customer view</returns>
         [HttpGet]
         public ActionResult Delete(string id)
         {

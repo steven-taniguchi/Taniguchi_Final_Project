@@ -11,8 +11,8 @@
 @using (Html.BeginForm("Upsert", "Customers", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
     @Html.HiddenFor(c => c.Id)
-    @Html.TextBoxFor(c => c.Name, new { @class = "form-control", placeholder = "Name", id = "name" })
-    <div class="autocomplete-container" id="autocomplete-container"></div>
+    <span>Name</span>@Html.TextBoxFor(c => c.Name, new { @class = "form-control", placeholder = "Name", id = "name" })
+<span>Address</span><div class="autocomplete-container" id="autocomplete-container"></div>
     @Html.HiddenFor(c => c.Address, new { @class = "form-control", placeholder = "Address", id = "customerAddress" })
     @Html.HiddenFor(c => c.City, new { @class = "form-control", placeholder = "City", id = "customerCity" })
     @Html.HiddenFor(c => c.State, new { @class = "form-control", placeholder = "State", id = "customerState" })

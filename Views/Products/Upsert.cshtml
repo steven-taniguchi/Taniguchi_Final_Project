@@ -7,10 +7,10 @@
 
 @using (Html.BeginForm("Upsert", "Products", FormMethod.Post))
 {
-    @Html.HiddenFor(p => p.Code)
-    @Html.TextBoxFor(p => p.Description, new { @class = "form-control", placeholder = "Description" })
-    @Html.TextBoxFor(p => p.Unit_Price, new { @class = "form-control", placeholder = "Unit Price" })
-    @Html.TextBoxFor(p => p.On_Hand_Quantity, new { @class = "form-control", placeholder = "On Hand Quantity" })
+    <span>Product Code</span>@Html.TextBoxFor(p => p.Code, new { @class = "form-control", placeholder = "Product Code" })
+    <span>Description</span>@Html.TextBoxFor(p => p.Description, new { @class = "form-control", placeholder = "Description" })
+    <span>Unit Price</span>@Html.TextBoxFor(p => p.Unit_Price, new { @class = "form-control", placeholder = "Unit Price" })
+    <span>On Hand Quantity</span>@Html.TextBoxFor(p => p.On_Hand_Quantity, new { @class = "form-control", placeholder = "On Hand Quantity" })
 
     <input type="submit" value="Submit" class="btn btn-info" />
     <input type="button" value="Delete" class="btn btn-danger" onclick="apiHandler.DELETE('/Products/Delete/@Model.Code')" />

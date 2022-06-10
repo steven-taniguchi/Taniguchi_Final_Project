@@ -1,0 +1,17 @@
+﻿@model Taniguchi_Final_Project.Models.OrderOption
+@{
+    ViewBag.Title = "Upsert an Order Option";
+}
+
+<h2>Upsert</h2>
+
+@using (Html.BeginForm("Upsert", "OrderOptions", FormMethod.Post))
+{
+    @Html.HiddenFor(oo => oo.Id)
+    <span>Sales Tax Rate</span>@Html.TextBoxFor(oo => oo.Sales_Tax_Rate, new { @class = "form-control", placeholder = "Description" })
+<span>First Book Ship Charge</span>@Html.TextBoxFor(oo => oo.First_Book_Ship_Charge, new { @class = "form-control", placeholder = "Unit Price" })
+<span>Additional Book Ship Charge</span>@Html.TextBoxFor(oo => oo.Additional_Book_Ship_Charge, new { @class = "form-control", placeholder = "On Hand Quantity" })
+
+    <input type="submit" value="Submit" class="btn btn-info" />
+    <input type="button" value="Delete" class="btn btn-danger" onclick="apiHandler.DELETE('/OrderOptions/Delete/@Model.Id')" />
+}

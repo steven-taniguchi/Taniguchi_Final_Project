@@ -28,8 +28,8 @@ namespace Taniguchi_Final_Project.Models
         public DbSet<Customer> Customers { get; set; }
         public DbSet<InvoiceLineItem> InvoiceLineItems { get; set; }
         public DbSet<Invoice> Invoices { get; set; }
+        public DbSet<OrderOption> OrderOptions { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<State> States { get; set; }
-        public DbSet<OrderOption> OrderOptions { get; set; }
     }
 }

@@ -1,0 +1,46 @@
+﻿@model List<Taniguchi_Final_Project.Models.OrderOption>
+@{
+    ViewBag.Title = "All";
+}
+
+<h2>All Order Options</h2>
+<a href="/OrderOptions/Upsert" class="btn btn-primary">Add an Order Option</a>
+
+<div class="row">
+    <div class="col-md-3">
+        <input id="textSearch" type="text" class="form-control" placeholder="Search..." />
+    </div>
+    <div class="col-md-9">
+        <input type="button" class="button btn btn-info" value="Search" onclick="Sortable.Search();" />
+    </div>
+</div>
+
+<table class="sortable table table-hover table-striped">
+    <thead>
+        <tr>
+            <th onclick="Sortable.Sort(0)">Order Option ID</th>
+            <th onclick="Sortable.Sort(1)">Sales Tax Rate</th>
+            <th onclick="Sortable.Sort(2)">First Book Ship Charge</th>
+            <th onclick="Sortable.Sort(3)">Additional Book Ship Charge</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var orderOptions in Model)
+        {
+            <tr>
+                <td>@orderOptions.Id</td>
+                <td>@orderOptions.Sales_Tax_Rate.ToString("C2")</td>
+                <td>@orderOptions.First_Book_Ship_Charge.ToString("C2")</td>
+                <td>@orderOptions.Additional_Book_Ship_Charge.ToString("C2")</td>
+                <td>
+                    <a href="/OrderOptions/Upsert/@orderOptions.Id">Edit</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<script>
+    Sortable.baseUrl = "/OrderOptions/All/";
+</script>

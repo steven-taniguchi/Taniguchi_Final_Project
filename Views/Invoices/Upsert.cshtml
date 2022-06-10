@@ -8,15 +8,13 @@
 @using (Html.BeginForm("Upsert", "Invoices", FormMethod.Post))
 {
     @Html.HiddenFor(i => i.Invoice.Id)
-    @Html.TextBoxFor(i => i.Invoice.Date, new { @class = "form-control", placeholder = "Address" })
+    @Html.TextBoxFor(i => i.Invoice.Date, new { @class = "form-control", placeholder = "Invoice Date (YYYY-MM-DD" })
     <input value="@Model.Invoice.Product_Total" tpye="text" disabled class="form-control" name="Invoice.Product_Total" />
-    @Html.TextBoxFor(i => i.Invoice.Product_Total, new { @class = "form-control", placeholder = "City" })
     @Html.TextBoxFor(i => i.Invoice.Sales_Tax, new { @class = "form-control", placeholder = "Zip Code" })
     @Html.TextBoxFor(i => i.Invoice.Shipping, new { @class = "form-control", placeholder = "Zip Code" })
     <input value="@Model.Invoice.Total" tpye="text" disabled class="form-control" name="Invoice.Total" />
-    @Html.TextBoxFor(i => i.Invoice.Total, new { @class = "form-control", placeholder = "Zip Code" })
 
-    <input list="customerIds" name="customerId" class="form-control" placeholder="Select a Customer ID" />
+    <input value="@Model.Invoice.Customer_Id - @Model.Invoice.Customer.Name" list="customerIds" name="customerId" class="form-control" placeholder="Select a Customer ID" />
 
     <datalist id="customerIds">
         @foreach (var customer in Model.Customer)

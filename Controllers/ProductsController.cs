@@ -10,7 +10,13 @@ namespace Taniguchi_Final_Project.Controllers
 {
     public class ProductsController : Controller
     {
-        // GET: Products
+        /// <summary>
+        /// Displays the view for all products
+        /// </summary>
+        /// <param name="id">The search term</param>
+        /// <param name="sortBy">0 = Code, 1 = Description, 2 = Unit price, 3 = on hand quantity, 4 = State, 5 =  Zip code</param>
+        /// <param name="isDesc">Set ascending or descending on header click</param>
+        /// <returns>Product view</returns>
         public ActionResult All(string id, int sortBy = 0, bool isDesc = false)
         {
             BooksEntities context = new BooksEntities();
@@ -86,6 +92,11 @@ namespace Taniguchi_Final_Project.Controllers
             return View(products);
         }
 
+        /// <summary>
+        /// Allows for edit of entry
+        /// </summary>
+        /// <param name="id">Product Code</param>
+        /// <returns>Product view</returns>
         [HttpGet]
         public ActionResult Upsert(string id = "")
         {
@@ -101,6 +112,11 @@ namespace Taniguchi_Final_Project.Controllers
             return View(product);
         }
 
+        /// <summary>
+        /// Upserts a product
+        /// </summary>
+        /// <param name="newProduct">New product to add to database</param>
+        /// <returns>All view</returns>
         [HttpPost]
         public ActionResult Upsert(Product newProduct)
         {
@@ -129,6 +145,11 @@ namespace Taniguchi_Final_Project.Controllers
             return RedirectToAction("All");
         }
 
+        /// <summary>
+        /// Deletes a product
+        /// </summary>
+        /// <param name="code">Product code to delete</param>
+        /// <returns>Product view</returns>
         [HttpGet]
         public ActionResult Delete(string code)
         {

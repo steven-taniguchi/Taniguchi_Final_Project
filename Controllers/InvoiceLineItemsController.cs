@@ -11,6 +11,13 @@ namespace Taniguchi_Final_Project.Controllers
     public class InvoiceLineItemsController : Controller
     {
         // GET: InvoiceLineItems
+        /// <summary>
+        /// Displays view for all invoice line items
+        /// </summary>
+        /// <param name="id">The search term</param>
+        /// <param name="sortBy">0 = InvoiceId, 1 = product code, 2 = unit price, 3 = quantity, 4 = item total</param>
+        /// <param name="isDesc">Set ascending or descending on header click</param>
+        /// <returns>Invoice line items view</returns>
         public ActionResult All(string id, int sortBy = 0, bool isDesc = false)
         {
             BooksEntities context = new BooksEntities();
@@ -99,6 +106,12 @@ namespace Taniguchi_Final_Project.Controllers
             return View(invoiceLineItems);
         }
 
+        /// <summary>
+        /// Allows for edit of entry
+        /// </summary>
+        /// <param name="id">Invoice id to edit</param>
+        /// <param name="code">Product code to edit</param>
+        /// <returns>Invoice line items view view</returns>
         [HttpGet]
         public ActionResult Upsert(int id = 0, string code = "")
         {
@@ -123,6 +136,12 @@ namespace Taniguchi_Final_Project.Controllers
             return View(viewModel);
         }
 
+        /// <summary>
+        /// Upserts an invoice line item
+        /// </summary>
+        /// <param name="model">InvoiceLineItemDTO</param>
+        /// <param name="stateCode">State code </param>
+        /// <returns></returns>
         [HttpPost]
         public ActionResult Upsert(UpsertInvoiceLineItemModel model, string stateCode)
         {
@@ -159,6 +178,12 @@ namespace Taniguchi_Final_Project.Controllers
             return RedirectToAction("All");
         }
 
+        /// <summary>
+        /// Deletes an invoice line item
+        /// </summary>
+        /// <param name="invoiceId">InvoiceID to delete</param>
+        /// <param name="productCode">Product code to delete</param>
+        /// <returns>Invoice line itmes view</returns>
         [HttpGet]
         public ActionResult Delete(int invoiceId, string productCode)
         {

@@ -245,10 +245,10 @@
     <Content Include="Views\Invoices\Upsert.cshtml" />
     <Content Include="Views\InvoiceLineItems\All.cshtml" />
     <Content Include="Views\InvoiceLineItems\Upsert.cshtml" />
+    <Content Include="Views\OrderOptions\All.cshtml" />
+    <Content Include="Views\OrderOptions\Upsert.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Views\OrderOptions\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
