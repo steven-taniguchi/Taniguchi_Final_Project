@@ -5,7 +5,6 @@
     Search() {
         var searchKey = $('#textSearch').val();
         window.location.href = Sortable.baseUrl + "?id=" + searchKey;
-        //window.location.href = Sortable.baseUrl + searchKey;
     },
 
     Sort(sortBy) {
@@ -59,7 +58,6 @@ var apiHandler = {
                     if (res.Success == true) {
                         debugger;
                         location.href = res.returnUrl;
-
                     } else {
                         alert(res.Message);
                     }
@@ -68,6 +66,5 @@ var apiHandler = {
         } else {
             alert("Delete cancelled");
         }
-
     }
 };

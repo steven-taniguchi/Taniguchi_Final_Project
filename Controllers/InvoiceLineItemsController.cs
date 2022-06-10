@@ -190,5 +190,4 @@ namespace Taniguchi_Final_Project.Controllers
             }, JsonRequestBehavior.AllowGet);
         }
     }
-    }
 }

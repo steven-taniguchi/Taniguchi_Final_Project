@@ -99,10 +99,10 @@ namespace Taniguchi_Final_Project.Controllers
 
                 customers = customers.Where(c =>
                         c.Id.ToString().Contains(id) ||
-                        c.Name.ToString().Contains(id) ||
-                        c.Address.ToString().Contains(id) ||
-                        c.City.ToString().Contains(id) ||
-                        c.State.ToString().Contains(id) ||
+                        c.Name.ToLower().Contains(id) ||
+                        c.Address.ToLower().Contains(id) ||
+                        c.City.ToLower().Contains(id) ||
+                        c.State.ToLower().Contains(id) ||
                         c.Zip_Code.ToLower().Contains(id)
                     ).ToList();
             }

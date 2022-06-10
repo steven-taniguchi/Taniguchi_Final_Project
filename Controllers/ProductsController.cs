@@ -74,7 +74,7 @@ namespace Taniguchi_Final_Project.Controllers
                 id = id.Trim().ToLower();
 
                 products = products.Where(p =>
-                        p.Code.ToString().Contains(id) ||
+                        p.Code.ToLower().Contains(id) ||
                         p.Description.ToLower().Contains(id) ||
                         p.Unit_Price.ToString().Contains(id) ||
                         p.On_Hand_Quantity.ToString().Contains(id)

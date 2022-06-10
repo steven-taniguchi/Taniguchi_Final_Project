@@ -34,7 +34,7 @@
         <tr>
             <td>@invoice.Id</td>
             <td>@invoice.Customer_Id</td>
-            <td>@invoice.Date</td>
+            <td>@invoice.Date.ToShortDateString()</td>
             <td>@invoice.Product_Total.ToString("C2")</td>
             <td>@invoice.Sales_Tax.ToString("C2")</td>
             <td>@invoice.Shipping.ToString("C2")</td>

@@ -187,11 +187,6 @@ namespace Taniguchi_Final_Project.Controllers
                 ViewBag.Error = $"<span class='error'>{vex.EntityValidationErrors.First().ValidationErrors.First().ErrorMessage}</span>";
                 return View(newInvoice);
             }
-            catch (Exception ex)
-            {
-                ViewBag.Error = ex.Message;
-                return View(newInvoice);
-            }
             return RedirectToAction("All");
         }
 
