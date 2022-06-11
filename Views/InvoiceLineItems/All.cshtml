@@ -36,7 +36,7 @@
                 <td>@invoiceLineItems.Quantity</td>
                 <td>@invoiceLineItems.Item_Total.ToString("C2")</td>
                 <td>
-                    <a href="/InvoiceLineItems/Upsert/@invoiceLineItems.Invoice_Id&@invoiceLineItems.Product_Code">Edit</a>
+                    <a href="/InvoiceLineItems/Upsert/?invoiceId=@invoiceLineItems.Invoice_Id&productCode=@invoiceLineItems.Product_Code">Edit</a>
                 </td>
             </tr>
         }

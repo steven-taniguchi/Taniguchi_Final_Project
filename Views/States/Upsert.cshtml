@@ -7,8 +7,8 @@
 
 @using (Html.BeginForm("Upsert", "States", FormMethod.Post))
 {
-    <span>State Code</span>@Html.TextBoxFor(s => s.Code, new { @class = "form-control", placeholder = "State Code" })
-    <span>State Name</span>@Html.TextBoxFor(s => s.Name, new { @class = "form-control", placeholder = "State Name" })
+    <span>State Code</span>@Html.TextBoxFor(s => s.Code, new { @class = "form-control", id ="stateCode", placeholder = "State Code" })
+    <span>State Name</span>@Html.TextBoxFor(s => s.Name, new { @class = "form-control", id="stateID", placeholder = "State Name" })
 
 
     <input type="submit" value="Submit" class="btn btn-info" />

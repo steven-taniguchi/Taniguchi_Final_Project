@@ -94,7 +94,7 @@ namespace Taniguchi_Final_Project.Controllers
 
                 invoiceLineItems = invoiceLineItems.Where(i =>
                         i.Invoice_Id.ToString().Contains(id) ||
-                        i.Product_Code.ToString().Contains(id) ||
+                        i.Product_Code.ToLower().Contains(id) ||
                         i.Unit_Price.ToString().Contains(id) ||
                         i.Quantity.ToString().Contains(id) ||
                         i.Item_Total.ToString().Contains(id)
@@ -143,13 +143,14 @@ namespace Taniguchi_Final_Project.Controllers
         /// <param name="stateCode">State code </param>
         /// <returns></returns>
         [HttpPost]
-        public ActionResult Upsert(UpsertInvoiceLineItemModel model, string stateCode)
+        public ActionResult Upsert(UpsertInvoiceLineItemModel model, string invoiceID, string productId)
         {
 
             InvoiceLineItem newInvoiceLineItem = model.InvoiceLineItem;
 
-            stateCode = stateCode.Split('-')[0].Trim();
-            //newInvoiceLineItem.State = stateCode;
+            productId = productId.Split('-')[0].Trim();
+            newInvoiceLineItem.Invoice_Id = Convert.ToInt32(invoiceID);
+            newInvoiceLineItem.Product_Code = productId;
 
             BooksEntities context = new BooksEntities();
             try

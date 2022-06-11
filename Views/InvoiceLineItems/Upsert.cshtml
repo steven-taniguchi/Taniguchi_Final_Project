@@ -28,5 +28,5 @@
 
 
     <input type="submit" value="Submit" class="btn btn-info" />
-    <input type="button" value="Delete" class="btn btn-danger" onclick="apiHandler.DELETE('/States/Delete/?InvoiceId=@Model.InvoiceLineItem.Invoice_Id&productCode=@Model.InvoiceLineItem.Product_Code')" />
+    <input type="button" value="Delete" class="btn btn-danger" onclick="apiHandler.DELETE('/InvoiceLineItems/Delete/?InvoiceId=@Model.InvoiceLineItem.Invoice_Id&productCode=@Model.InvoiceLineItem.Product_Code')" />
 }
